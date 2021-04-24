@@ -1,6 +1,24 @@
 <div class="container">
-  <div class="welcome"><span>LOGO</span>
-  <div class="logo">привет<img src="MusicIn.png" alt=""></div>
+  <div class="welcome"><span>Welcome
+  </span>
+  <div class="logo">Logo</div>
   </div>
-  <div class="test">Hi</div>
+  <div class="test">
+    <form class="form" [formGroup]="form" (submit)="login()">
+      <div class="tui-form__row">
+        <tui-input formControlName="login">Логин</tui-input>
+      </div>
+
+      <div class="tui-form__row">
+        <tui-input-password class="tui-space_top-2" formControlName="password">
+          Пароль
+        </tui-input-password>
+      </div>
+
+      <div class="tui-form__buttons buttons">
+        <button [disabled]="form.invalid" tuiButton type="submit">Войти</button>
+      </div>
+    </form>
+
+  </div>
 </div>

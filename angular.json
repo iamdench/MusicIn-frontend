@@ -26,7 +26,10 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/app/enter/MusicIn.png"
+              "src/app/enter/MusicIn.png",
+              {	"glob": "**/*",
+                "input": "node_modules/@taiga-ui/icons/src",
+                "output": "assets/taiga-ui/icons"}
             ],
             "styles": [
               "src/styles.less",
