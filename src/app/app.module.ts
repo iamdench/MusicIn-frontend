@@ -5,16 +5,32 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {iconsPathFactory, TUI_ICONS_PATH, TuiButtonModule, TuiRootModule, TuiTextfieldControllerModule} from '@taiga-ui/core';
-import {TuiInputModule, TuiInputPasswordModule, TuiMarkerIconMode, TuiMarkerIconModule} from '@taiga-ui/kit';
-import {ReactiveFormsModule} from '@angular/forms';
+import {
+  iconsPathFactory,
+  TUI_ICONS_PATH,
+  TuiButtonModule,
+  TuiDataListModule,
+  TuiRootModule,
+  TuiTextfieldControllerModule
+} from '@taiga-ui/core';
+import {
+  TuiDataListWrapperModule,
+  TuiInputModule,
+  TuiInputPasswordModule,
+  TuiMarkerIconModule, TuiMultiSelectModule,
+  TuiSelectModule
+} from '@taiga-ui/kit';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { PlatformComponent } from './platform/platform.component';
+import { UserCardComponent } from './platform/user-card/user-card.component';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
-    PlatformComponent
+    PlatformComponent,
+    UserCardComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +43,15 @@ import { PlatformComponent } from './platform/platform.component';
     ReactiveFormsModule,
     TuiTextfieldControllerModule,
     TuiMarkerIconModule,
+    TuiDataListWrapperModule,
+    TuiSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TuiSelectModule,
+    TuiDataListModule,
+    TuiDataListWrapperModule,
+    HttpClientModule,
+    TuiMultiSelectModule,
   ],
   providers: [
     {

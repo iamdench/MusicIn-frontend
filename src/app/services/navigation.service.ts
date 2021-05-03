@@ -14,5 +14,6 @@ export class NavigationService {
 
   toAuth(): void{
   this.router.navigate(['/login']);
+  localStorage.removeItem('currentUser');
   }
 }

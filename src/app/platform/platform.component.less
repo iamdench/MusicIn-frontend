@@ -4,6 +4,7 @@
   border: 2px solid gray;
   height: 700px;
   display: flex;
+  position: relative;
 }
 
 .search_space {
@@ -18,24 +19,58 @@
   display: flex;
   flex-direction: column;
   justify-content: start;
-  align-items: center;
+  align-items: start;
   padding-top: 50px;
+  padding-left: 25px;
 }
 
 .my_profile_avatar {
   text-align: center;
   border-radius: 50%;
   background: #9B689B;
-  width: 150px;
-  height: 150px;
+  width: 175px;
+  height: 175px;
+  margin-left: 150px;
 }
 
-.my_profile_avatar span {
-  line-height: 10em;
-  font-size: 15px;
+.my_profile_avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.selectors {
+  display: flex;
+  justify-content: space-between;
+}
+
+.selector-1 {
+  width: 350px;
+}
+
+.selector-2 {
+  width: 300px;
+  padding-top: 20px;
+  padding-right: 30px;
 }
 
 .my_profile p {
   border: 3px solid cadetblue;
   color: #E5DFD3;
+  font-size: 18px;
+}
+
+.my_profile_exit{
+  margin-left: 130px;
+  margin-top: 50px;
+}
+
+.testAva {
+  max-height: 200px;
+  max-width: 200px;
+}
+
+.testAva img {
+  width: 100%;
+  height: 100%;
 }

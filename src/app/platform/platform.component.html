@@ -1,9 +1,76 @@
+<tui-root>
 <div class="container">
-  <div class="search_space">Search</div>
+  <div class="search_space">
+    <div class="selectors">
+      <div class="selector-1">
+        <form class="b-form">
+          <tui-multi-select
+            class="tui-space_top-2"
+            tuiTextfieldSize="m"
+            [editable]="false"
+            [formControl]="control"
+            [stringify]="stringify"
+            [identityMatcher]="identityMatcher"
+            [tuiTextfieldLabelOutside]="true"
+          >
+            Choose your genres
+            <tui-data-list *tuiDataList tuiMultiSelectGroup>
+              <button *ngFor="let item of items" tuiOption [value]="item">
+                {{item.name}}
+              </button>
+            </tui-data-list>
+          </tui-multi-select>
+          <tui-multi-select
+            class="tui-space_top-2"
+            [editable]="false"
+            [formControl]="control"
+            [stringify]="stringify"
+            [identityMatcher]="identityMatcher"
+          >
+            Choose your genres
+            <tui-data-list-wrapper
+              *tuiDataList
+              tuiMultiSelectGroup
+              [items]="items"
+              [itemContent]="stringify"
+            ></tui-data-list-wrapper>
+          </tui-multi-select>
+        </form>
+      </div>
+      <div class="selector-2">
+        <form [formGroup]="testForm">
+          <tui-input class="b-form" formControlName="testValue">
+            Type an artist's name
+          </tui-input>
+        </form>
+      </div>
+    </div>
+
+    <app-user-card></app-user-card>
+
+  </div>
   <div class="my_profile">
-    <div class="my_profile_avatar"><span>Avatar</span></div>
-    <p class="my_profile_name">Profile name</p>
-    <p class="my_profile_name">Me on Spotify</p>
-    <p class="my_profile_name">Likes</p>
+    <div class="my_profile_avatar"><img src="{{avaTest}}" alt=""></div>
+    <p class="my_profile_name">Profile name: {{ nameTest | titlecase }}</p>
+    <p class="my_profile_name">Me on Spotify: {{ linkTest }}</p>
+    <p class="my_profile_name">Likes:</p>
+    <p class="my_profile_name">Подписчики: {{ followersTest }}</p>
+    <button
+      tuiButton
+      type="button"
+      (click)="getArtist()"
+    >get Artist</button>
+    <div class="my_profile_exit">
+      <button
+        tuiButton
+        type="button"
+        class="tui-space_right-3 tui-space_bottom-3"
+        appearance="secondary"
+        (click)="logOut()"
+      >
+        Выйти из профиля
+      </button>
+    </div>
   </div>
 </div>
+</tui-root>
