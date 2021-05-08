@@ -50,16 +50,12 @@
 
   </div>
   <div class="my_profile">
-    <div class="my_profile_avatar"><img src="{{avaTest}}" alt=""></div>
-    <p class="my_profile_name">Profile name: {{ nameTest | titlecase }}</p>
-    <p class="my_profile_name">Me on Spotify: {{ linkTest }}</p>
-    <p class="my_profile_name">Likes:</p>
-    <p class="my_profile_name">Подписчики: {{ followersTest }}</p>
-    <button
-      tuiButton
-      type="button"
-      (click)="getArtist()"
-    >get Artist</button>
+    <div class="my_profile_avatar"><img src="{{ avatar }}" alt=""></div>
+    <p class="my_profile_name">Profile name: {{ name | titlecase }}</p>
+    <p class="my_profile_name"><a href="{{ link }}" target="_blank">Me on Spotify <img src="https://img.icons8.com/fluent/19/000000/spotify.png"/></a>
+    </p>
+    <p class="my_profile_name">Likes: {{ likes }}</p>
+    <p class="my_profile_name">Подписчики: {{ followers }}</p>
     <div class="my_profile_exit">
       <button
         tuiButton

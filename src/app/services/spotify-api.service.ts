@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {StorageService} from './storage.service';
 
 export interface Artist {
   name: string;
-  link: string;
-  // id: string;
+  spotifyLink: string;
   image: string;
   follower: string;
+  id?: string;
 }
 
 @Injectable({
@@ -15,7 +16,8 @@ export interface Artist {
 })
 export class SpotifyApiService {
 
-  constructor(private httpSpotyClient: HttpClient) { }
+  constructor(private httpSpotyClient: HttpClient,
+              private storageService: StorageService) { }
 
   AUTH = 'https://accounts.spotify.com/authorize?client_id=643d8c5dec96435495f32816fb2497e1&response_type=code&redirect_uri=http://localhost:4200/login&scope=user-read-private user-read-email';
 
@@ -42,20 +44,19 @@ export class SpotifyApiService {
     return this.httpSpotyClient.post('https://accounts.spotify.com/api/token', params, httpOptions);
   }
 
-  getTrack(id: string): Observable<any>{
-  const httpOptions = {
-    headers: new HttpHeaders({
-      'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-    })
-  };
-
-  return this.httpSpotyClient.get(`https://api.spotify.com/v1/tracks/${id}`, httpOptions);
-  }
+  // getTrack(id: string): Observable<any>{
+  // const httpOptions = {
+  //   headers: new HttpHeaders({
+  //     'Authorization': `Bearer ${this.storageService.getSpotyToken())}`
+  //   })
+  // };
+  // return this.httpSpotyClient.get(`https://api.spotify.com/v1/tracks/${id}`, httpOptions);
+  // }
 
   getArtist(id: string): Observable<any>{
     const httpOptions = {
       headers: new HttpHeaders({
-        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        'Authorization': `Bearer ${this.storageService.getSpotyToken()}`
       })
     };
 

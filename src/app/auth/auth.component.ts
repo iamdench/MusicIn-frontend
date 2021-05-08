@@ -3,6 +3,13 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {NavigationService} from '../services/navigation.service';
 import {SpotifyApiService} from '../services/spotify-api.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
+import {AuthApiService} from '../services/auth-api.service';
+import {StorageService} from '../services/storage.service';
+
+export interface UserForm {
+  username: string;
+  password: string;
+}
 
 @Component({
   selector: 'app-enter',
@@ -11,25 +18,42 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 })
 export class AuthComponent implements OnInit {
   readonly form = new FormGroup({
-    login: new FormControl(null, Validators.required),
+    username: new FormControl(null, Validators.required),
     password: new FormControl(null, Validators.required)
   });
 
   constructor(private navigationService: NavigationService,
               private spotifyApiService: SpotifyApiService,
-              private route: ActivatedRoute)
+              private route: ActivatedRoute,
+              private authApiService: AuthApiService,
+              private storageService: StorageService)
   {}
 
   id = `3x1WV02xLxlQZxddtaBux9`;
   ngOnInit(): void {
-    // this.spotifyApiService.showAuthWindow();
-    // this.code = this.route.snapshot.params.code;
-    // console.log(this.code);
+  this.getSpotyToken();
   }
 
   login(): void {
-    this.navigationService.toPlarform();
-    localStorage.setItem('currentUser', 'Denis');
+    const user: UserForm = this.form.value;
+    this.authApiService.login(user.username, user.password).
+    subscribe((res: any) => {
+      console.log(res);
+      this.storageService.setAccToken(res.access_token);
+      // this.spotifyApiService.loginSpotify()
+      //     .subscribe(
+      //       (res: any) => {
+      //         console.log(res);
+
+      //       },
+      //       err => console.log(err)
+      //     );
+      // this.getSpotyToken();
+      this.navigationService.toPlarform();
+    },
+      error => console.log(error)
+  );
+    this.form.reset();
   }
 
   getSpotyToken(): void {
@@ -37,21 +61,21 @@ export class AuthComponent implements OnInit {
       .subscribe(
         (res: any) => {
           console.log(res);
-          localStorage.setItem('access_token', res.access_token);
+          this.storageService.setSpotyToken(res.access_token);
         },
         err => console.log(err)
       );
   }
 
 
-  getSongInfo(): void{
-    this.spotifyApiService.getTrack(this.id)
-      .subscribe(
-        (res: any) => {
-          console.log(res);
-        },
-        error => console.log(error)
-      );
-  }
+  // getSongInfo(): void{
+  //   this.spotifyApiService.getTrack(this.id)
+  //     .subscribe(
+  //       (res: any) => {
+  //         console.log(res);
+  //       },
+  //       error => console.log(error)
+  //     );
+  // }
 
 }

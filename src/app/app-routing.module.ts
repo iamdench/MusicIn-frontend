@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {AuthComponent} from './auth/auth.component';
 import {PlatformComponent} from './platform/platform.component';
 import {PlatformGuard} from './platform/platform.guard';
+import {PlatformResolverService} from './services/platform-resolver.service';
 
 
 const routes: Routes = [
@@ -13,7 +14,8 @@ const routes: Routes = [
   {
     path: '',
     component: PlatformComponent,
-    canActivate: [PlatformGuard]
+    canActivate: [PlatformGuard],
+    resolve: { currentUser: PlatformResolverService }
   },
   {
     path: '**',

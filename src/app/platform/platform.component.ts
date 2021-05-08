@@ -7,6 +7,10 @@ import {
   TuiIdentityMatcher,
   TuiStringHandler,
 } from '@taiga-ui/cdk';
+import {StorageService} from '../services/storage.service';
+import {AuthApiService} from '../services/auth-api.service';
+import {ActivatedRoute} from '@angular/router';
+import {Profile} from '../interfaces/profile';
 
 interface Hero {
   readonly id: number;
@@ -19,11 +23,13 @@ interface Hero {
   styleUrls: ['./platform.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PlatformComponent implements OnInit {
-
+export class PlatformComponent implements  OnInit {
 
   constructor(private navigationService: NavigationService,
-              private spotifyApiService: SpotifyApiService) { }
+              private activatedRoute: ActivatedRoute,
+              private spotifyApiService: SpotifyApiService,
+              private storageService: StorageService,
+              private authApiService: AuthApiService) { }
 
   readonly items: ReadonlyArray<Hero> = [
     {id: 1, name: 'Рок'},
@@ -41,16 +47,18 @@ export class PlatformComponent implements OnInit {
     },
   ]);
 
-  id = '2eiThpX5zH6LFmqP2HY1hL';
-
-  avaTest: string;
-  nameTest: string;
-  linkTest: string;
-  followersTest: string;
+  id = '';
+  avatar: string;
+  name: string;
+  link: string;
+  followers: string;
+  likes: number;
 
   readonly testForm = new FormGroup({
     testValue: new FormControl('Artist name')
   });
+
+  public user: Profile;
 
   readonly stringify: TuiStringHandler<Hero | TuiContextWithImplicit<Hero>> = item =>
     'name' in item ? item.name : item.$implicit.name
@@ -59,23 +67,35 @@ export class PlatformComponent implements OnInit {
     hero1.id === hero2.id
 
   ngOnInit(): void {
-    // console.log(window.location.search);
+    this.activatedRoute.data.
+    subscribe(req => {
+          console.log(req);
+          this.id = req.currentUser.spotifyId;
+          this.storageService.setCurUser(req.currentUser.spotifyId);
+          this.getArtist(req.currentUser.myLikes);
+        },
+          error => {
+          console.log(error);
+          });
   }
+
 
   logOut(): void {
-  this.navigationService.toAuth();
+    console.log(this.id);
+    this.navigationService.toAuth();
   }
 
 
-  getArtist(): void {
+  getArtist(myLikes: number): void{
   this.spotifyApiService.getArtist(this.id).
     subscribe(res => {
-      console.log(res.name);
-      this.avaTest = res.images[0].url;
-      this.nameTest = res.name;
-      this.linkTest = res.external_urls.spotify;
-      this.followersTest = res.followers.total;
-      console.log(res.images[0].url);
+      // this.user = res;
+      console.log('test', this.user);
+      this.avatar = res.images[0].url;
+      this.name = res.name;
+      this.link = res.external_urls.spotify;
+      this.likes = myLikes;
+      this.followers = res.followers.total;
   }, error => {
       console.log(error);
   });

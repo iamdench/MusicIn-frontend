@@ -1,15 +1,17 @@
 import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
+import {StorageService} from '../services/storage.service';
 
 @Injectable()
 export class PlatformGuard implements CanActivate{
 
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private storageService: StorageService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (localStorage.getItem('currentUser')) {
+    if (this.storageService.checkAccToken()) {
       // logged in so return true
       return true;
     }

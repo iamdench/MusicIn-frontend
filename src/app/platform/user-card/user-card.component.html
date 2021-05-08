@@ -5,25 +5,16 @@
       <br>
       Послушать
     </p>
-    <p>Me on Spotify: {{artist.link}}</p>
-    <p>Followers: {{artist.follower}}</p>
+    <p><a href="{{artist.spotifyLink}}" target="_blank">Me on Spotify <img src="https://img.icons8.com/fluent/15/000000/spotify.png"/></a></p>
+   <p>Followers: {{artist.follower}} <tui-svg class="icon" src="tuiIconHeartLarge"></tui-svg></p>
   </div>
-<!--  <div class="test-div">-->
-<!--    <div class="profile_avatar">Test</div>-->
-<!--    <p>Name: </p>-->
-<!--    <p>Me on Spotify: </p>-->
-<!--    <p>Followers: </p>-->
-<!--  </div>-->
-<!--  <div class="test-div">-->
-<!--    <div class="profile_avatar">Test</div>-->
-<!--    <p>Name: </p>-->
-<!--    <p>Me on Spotify: </p>-->
-<!--    <p>Followers: </p>-->
-<!--  </div>-->
-<!--  <div class="test-div">-->
-<!--    <div class="profile_avatar">Test</div>-->
-<!--    <p>Name: </p>-->
-<!--    <p>Me on Spotify: </p>-->
-<!--    <p>Followers: </p>-->
-<!--  </div>-->
+
+  <button
+  tuiButton
+  type="button"
+  class="tui-space_right-3 tui-space_bottom-3"
+  appearance="secondary"
+  (click)="getAllArtists()">
+    GetAllArtists
+  </button>
 </div>
