@@ -41,16 +41,12 @@ function minLengthValue(context: {requiredLength: string}): string {
 export class RegistrationComponent implements OnInit {
 
   form: FormGroup;
-
-  commonValidator: number;
-
   constructor(private navigationService: NavigationService,
               private registrationService: RegistrationService) { }
 
   isValid = true;
 
   ngOnInit(): void {
-      console.log('Это все из-за меня');
       this.form = new FormGroup({
         username: new FormControl('', [
           Validators.required,
