@@ -4,12 +4,17 @@ import {AuthComponent} from './auth/auth.component';
 import {PlatformComponent} from './platform/platform.component';
 import {PlatformGuard} from './platform/platform.guard';
 import {PlatformResolverService} from './services/platform-resolver.service';
+import {RegistrationComponent} from './registration/registration/registration.component';
 
 
 const routes: Routes = [
   {
     path: 'login',
     component: AuthComponent
+  },
+  {
+    path: 'registration',
+    component: RegistrationComponent
   },
   {
     path: '',

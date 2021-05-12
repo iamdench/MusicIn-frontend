@@ -14,6 +14,10 @@ export class NavigationService {
     this.router.navigate(['/']);
   }
 
+  toRegistration(): void{
+    this.router.navigate(['/registration']);
+  }
+
   toAuth(): void{
   this.router.navigate(['/login']);
   this.storageService.lotOut();

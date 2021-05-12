@@ -22,7 +22,15 @@ export class StorageService {
   }
 
   setCurUser(token: string): void{
-    sessionStorage.setItem('currentUser', token)
+    sessionStorage.setItem('currentUser', token);
+  }
+
+  setUserId(id: string): void{
+    sessionStorage.setItem('userId', id);
+  }
+
+  getUserId(): string{
+    return  sessionStorage.getItem('userId');
   }
 
   getSpotyToken(): string{
@@ -33,7 +41,7 @@ export class StorageService {
     return sessionStorage.getItem('accessToken');
   }
 
-  getUser(): string{
+  getCurUser(): string{
     return  sessionStorage.getItem('currentUser');
   }
 

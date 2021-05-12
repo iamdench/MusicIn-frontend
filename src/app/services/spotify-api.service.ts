@@ -8,7 +8,11 @@ export interface Artist {
   spotifyLink: string;
   image: string;
   follower: string;
-  id?: string;
+  _id?: string;
+  spotifyId: string;
+  like: boolean;
+  likedMe: string;
+  track: string;
 }
 
 @Injectable({
@@ -37,26 +41,28 @@ export class SpotifyApiService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Basic ' + btoa(`${this.clientId}` + ':' + `${this.clientSecret}`)
+        Authorization: 'Basic ' + btoa(`${this.clientId}` + ':' + `${this.clientSecret}`)
       })
     };
 
     return this.httpSpotyClient.post('https://accounts.spotify.com/api/token', params, httpOptions);
   }
 
-  // getTrack(id: string): Observable<any>{
-  // const httpOptions = {
-  //   headers: new HttpHeaders({
-  //     'Authorization': `Bearer ${this.storageService.getSpotyToken())}`
-  //   })
-  // };
-  // return this.httpSpotyClient.get(`https://api.spotify.com/v1/tracks/${id}`, httpOptions);
-  // }
+  getTrack(id: string): Observable<any>{
+  const httpOptions = {
+    headers: new HttpHeaders({
+      Authorization: `Bearer ${this.storageService.getSpotyToken()}`
+    })
+  };
+  return this.httpSpotyClient.get(`https://api.spotify.com/v1/artists/${id}/top-tracks?market=ES`, httpOptions);
+    // return this.httpSpotyClient.get(`https://api.spotify.com/v1/tracks/${id}`, httpOptions);
+
+  }
 
   getArtist(id: string): Observable<any>{
     const httpOptions = {
       headers: new HttpHeaders({
-        'Authorization': `Bearer ${this.storageService.getSpotyToken()}`
+        Authorization: `Bearer ${this.storageService.getSpotyToken()}`
       })
     };
 

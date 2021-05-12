@@ -1,12 +1,21 @@
-<div class="container">
-  <div class="test-div" *ngFor="let artist of artists">
+<div class="selector-2">
+    <tui-input
+      [(ngModel)]="search">
+      Type an artist's name
+    </tui-input>
+</div>
+
+
+<!--*ngIf="!loading; else loadingBlock"-->
+<div  class="container">
+  <div class="test-div" *ngFor="let artist of artists | filter:search">
     <div class="profile_avatar"><img src="{{artist.image}}" alt=""></div>
     <p>{{artist.name}}<br>
       <br>
-      Послушать
+      Послушать <tui-svg (click)="playSong(artist.track)" class="icon-dis" src="tuiIconPlayLarge"></tui-svg>
     </p>
     <p><a href="{{artist.spotifyLink}}" target="_blank">Me on Spotify <img src="https://img.icons8.com/fluent/15/000000/spotify.png"/></a></p>
-   <p>Followers: {{artist.follower}} <tui-svg class="icon" src="tuiIconHeartLarge"></tui-svg></p>
+   <p class="followers">Followers: {{artist.follower}} <tui-svg  (click)="like(artist)" class="icon" [class.icon-dis]="artist.like" src="tuiIconHeartLarge"></tui-svg></p>
   </div>
 
   <button
@@ -18,3 +27,7 @@
     GetAllArtists
   </button>
 </div>
+
+<ng-template #loadingBlock>
+  <p>Loading...</p>
+</ng-template>

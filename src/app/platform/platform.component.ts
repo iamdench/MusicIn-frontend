@@ -11,6 +11,8 @@ import {StorageService} from '../services/storage.service';
 import {AuthApiService} from '../services/auth-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {Profile} from '../interfaces/profile';
+import {LikesApiService} from '../services/likes-api.service';
+import {Liker} from '../interfaces/liker';
 
 interface Hero {
   readonly id: number;
@@ -21,7 +23,7 @@ interface Hero {
   selector: 'app-platform',
   templateUrl: './platform.component.html',
   styleUrls: ['./platform.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlatformComponent implements  OnInit {
 
@@ -29,7 +31,8 @@ export class PlatformComponent implements  OnInit {
               private activatedRoute: ActivatedRoute,
               private spotifyApiService: SpotifyApiService,
               private storageService: StorageService,
-              private authApiService: AuthApiService) { }
+              private authApiService: AuthApiService,
+              private likesApiService: LikesApiService) { }
 
   readonly items: ReadonlyArray<Hero> = [
     {id: 1, name: 'Рок'},
@@ -53,10 +56,11 @@ export class PlatformComponent implements  OnInit {
   link: string;
   followers: string;
   likes: number;
+  track = new Audio();
+  state = false;
+  likedMe: string[];
+  likedMeLinks: Liker[] = [];
 
-  readonly testForm = new FormGroup({
-    testValue: new FormControl('Artist name')
-  });
 
   public user: Profile;
 
@@ -72,17 +76,28 @@ export class PlatformComponent implements  OnInit {
           console.log(req);
           this.id = req.currentUser.spotifyId;
           this.storageService.setCurUser(req.currentUser.spotifyId);
+          this.storageService.setUserId(req.currentUser.id);
           this.getArtist(req.currentUser.myLikes);
+          this.likedMe = req.currentUser.likedMe;
+          console.log('Likes', this.likedMe);
         },
           error => {
           console.log(error);
           });
+    this.getLikesList(this.likedMe);
   }
 
 
   logOut(): void {
     console.log(this.id);
     this.navigationService.toAuth();
+  }
+
+  getSong(): void{
+    this.spotifyApiService.getTrack(this.storageService.getCurUser()).
+    subscribe(res => {
+      this.track.src = res.tracks[0].preview_url;
+    });
   }
 
 
@@ -99,5 +114,22 @@ export class PlatformComponent implements  OnInit {
   }, error => {
       console.log(error);
   });
+  this.getSong();
+  }
+
+  playSong(): void {
+    this.state === false ? this.track.play() : this.track.pause();
+    this.state = !this.state;
+  }
+
+  getLikesList(likedMe: string[]): Liker[]{
+  for (const artist of likedMe){
+    this.likesApiService.getNameAndLink(artist).
+    subscribe(req => {
+      this.likedMeLinks.push(req);
+      console.log(this.likedMeLinks);
+    });
+  }
+  return this.likedMeLinks;
   }
 }

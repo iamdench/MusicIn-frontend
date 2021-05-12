@@ -5,6 +5,7 @@ import {SpotifyApiService} from '../services/spotify-api.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {AuthApiService} from '../services/auth-api.service';
 import {StorageService} from '../services/storage.service';
+import * as url from 'url';
 
 export interface UserForm {
   username: string;
@@ -29,10 +30,20 @@ export class AuthComponent implements OnInit {
               private storageService: StorageService)
   {}
 
-  id = `3x1WV02xLxlQZxddtaBux9`;
+  id = `2n6CVwo43YvjiTgcPxYWrf`;
+
+    // `3EwWB7HxAIFVloXDApQ8kL`;
+
+  // `3x1WV02xLxlQZxddtaBux9`;
+  track = new Audio();
+  state = false;
+
+
   ngOnInit(): void {
   this.getSpotyToken();
   }
+
+
 
   login(): void {
     const user: UserForm = this.form.value;
@@ -40,20 +51,15 @@ export class AuthComponent implements OnInit {
     subscribe((res: any) => {
       console.log(res);
       this.storageService.setAccToken(res.access_token);
-      // this.spotifyApiService.loginSpotify()
-      //     .subscribe(
-      //       (res: any) => {
-      //         console.log(res);
-
-      //       },
-      //       err => console.log(err)
-      //     );
-      // this.getSpotyToken();
       this.navigationService.toPlarform();
     },
       error => console.log(error)
   );
     this.form.reset();
+  }
+
+  registration(): void {
+    this.navigationService.toRegistration();
   }
 
   getSpotyToken(): void {
@@ -68,14 +74,20 @@ export class AuthComponent implements OnInit {
   }
 
 
-  // getSongInfo(): void{
-  //   this.spotifyApiService.getTrack(this.id)
-  //     .subscribe(
-  //       (res: any) => {
-  //         console.log(res);
-  //       },
-  //       error => console.log(error)
-  //     );
-  // }
+  getSongInfo(): void{
+    this.spotifyApiService.getTrack(this.id)
+      .subscribe(
+        (res: any) => {
+          this.track.src = res.tracks[0].preview_url;
+          console.log(res);
+          console.log(this.track.src);
+        },
+        error => console.log(error)
+      );
+  }
 
+  playSong(): void {
+    this.state === false ? this.track.play() : this.track.pause();
+    this.state = !this.state;
+  }
 }

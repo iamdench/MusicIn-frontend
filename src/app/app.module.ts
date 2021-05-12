@@ -15,7 +15,8 @@ import {
     TuiTextfieldControllerModule
 } from '@taiga-ui/core';
 import {
-  TuiDataListWrapperModule,
+  TuiAccordionModule, TuiActionModule, TuiCheckboxLabeledModule,
+  TuiDataListWrapperModule, TuiFieldErrorModule,
   TuiInputModule,
   TuiInputPasswordModule,
   TuiMarkerIconModule, TuiMultiSelectModule,
@@ -25,37 +26,45 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { PlatformComponent } from './platform/platform.component';
 import { UserCardComponent } from './platform/user-card/user-card.component';
 import {HttpClientModule} from '@angular/common/http';
+import { FilterPipe } from './pipes/filter.pipe';
+import { RegistrationComponent } from './registration/registration/registration.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
     PlatformComponent,
-    UserCardComponent
+    UserCardComponent,
+    FilterPipe,
+    RegistrationComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        TuiRootModule,
-        BrowserAnimationsModule,
-        TuiInputModule,
-        TuiInputPasswordModule,
-        TuiButtonModule,
-        ReactiveFormsModule,
-        TuiTextfieldControllerModule,
-        TuiMarkerIconModule,
-        TuiDataListWrapperModule,
-        TuiSelectModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TuiSelectModule,
-        TuiDataListModule,
-        TuiDataListWrapperModule,
-        HttpClientModule,
-        TuiMultiSelectModule,
-        FontAwesomeModule,
-        TuiSvgModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    TuiRootModule,
+    BrowserAnimationsModule,
+    TuiInputModule,
+    TuiInputPasswordModule,
+    TuiButtonModule,
+    ReactiveFormsModule,
+    TuiTextfieldControllerModule,
+    TuiMarkerIconModule,
+    TuiDataListWrapperModule,
+    TuiSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TuiSelectModule,
+    TuiDataListModule,
+    TuiDataListWrapperModule,
+    HttpClientModule,
+    TuiMultiSelectModule,
+    FontAwesomeModule,
+    TuiSvgModule,
+    TuiAccordionModule,
+    TuiCheckboxLabeledModule,
+    TuiFieldErrorModule,
+    TuiActionModule,
+  ],
   providers: [
     {
       provide: TUI_ICONS_PATH,

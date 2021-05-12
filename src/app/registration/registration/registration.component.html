@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="welcome">
+    <div class="logo"><img src="https://cdn1.savepice.ru/uploads/2021/5/11/921cfa26c7aa8b72e8b91fba3784503d-full.png" alt="Logos"></div>
+  </div>
+  <div class="reg-form-wrapper">
+    <div class="reg-form">
+      <form [formGroup]="form" (ngSubmit)="submit()">
+
+        <div class="tui-form__row">
+          <tui-input class="b-form" formControlName="username" >
+            Ваш логин (Имя артиста/Название группы)
+          </tui-input>
+        </div>
+        <tui-field-error formControlName="username"></tui-field-error>
+
+        <div class="tui-form__row">
+          <tui-input class="b-form" formControlName="email">
+            Электропочта
+          </tui-input>
+        </div>
+        <tui-field-error formControlName="email"></tui-field-error>
+
+        <div class="tui-form__row">
+          <tui-input class="b-form" formControlName="spotifyLink" >
+            Укажите ваш SpotifyId (он идет после ...artist/)
+          </tui-input>
+        </div>
+        <tui-field-error formControlName="spotifyLink"></tui-field-error>
+
+        <a class="searcher"
+          tuiAction
+          icon="tuiIconSearchLarge"
+          target="_blank"
+          href="https://open.spotify.com/search"
+        >
+          Нажмите, чтобы найти себя на Spotify
+        </a>
+
+        <div class="tui-form__row">
+          <tui-input-password class="tui-space_top-2" formControlName="password" tuiTextfieldSize="l">
+            Пароль
+          </tui-input-password>
+          <tui-field-error class="error" formControlName="password"></tui-field-error>
+        </div>
+
+        <div class="flexbox">
+          <button
+            type="submit"
+            tuiButton class="button"
+            [disabled]="form.invalid"
+            (click)="submit()"
+          >Отправить </button>
+
+          <button
+            tuiButton
+            type="button"
+            class="tui-space_right-1 tui-space_bottom-3 toAuthButton"
+            appearance="secondary"
+            (click)="toAuth()"
+          >
+            Я передумал
+          </button>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
