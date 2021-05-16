@@ -1,67 +1,39 @@
 <tui-root>
 <div class="container">
   <div class="search_space">
-<!--    <div class="selectors">-->
-<!--      <div class="selector-1">-->
-<!--        <form class="b-form">-->
-<!--          <tui-multi-select-->
-<!--            class="tui-space_top-2"-->
-<!--            tuiTextfieldSize="m"-->
-<!--            [editable]="false"-->
-<!--            [formControl]="control"-->
-<!--            [stringify]="stringify"-->
-<!--            [identityMatcher]="identityMatcher"-->
-<!--            [tuiTextfieldLabelOutside]="true"-->
-<!--          >-->
-<!--            Choose your genres-->
-<!--            <tui-data-list *tuiDataList tuiMultiSelectGroup>-->
-<!--              <button *ngFor="let item of items" tuiOption [value]="item">-->
-<!--                {{item.name}}-->
-<!--              </button>-->
-<!--            </tui-data-list>-->
-<!--          </tui-multi-select>-->
-<!--          <tui-multi-select-->
-<!--            class="tui-space_top-2"-->
-<!--            [editable]="false"-->
-<!--            [formControl]="control"-->
-<!--            [stringify]="stringify"-->
-<!--            [identityMatcher]="identityMatcher"-->
-<!--          >-->
-<!--            Choose your genres-->
-<!--            <tui-data-list-wrapper-->
-<!--              *tuiDataList-->
-<!--              tuiMultiSelectGroup-->
-<!--              [items]="items"-->
-<!--              [itemContent]="stringify"-->
-<!--            ></tui-data-list-wrapper>-->
-<!--          </tui-multi-select>-->
-<!--        </form>-->
-<!--      </div>-->
-
-<!--    </div>-->
-
-    <app-user-card></app-user-card>
-
+    <app-user-card ></app-user-card>
+<!--    (newItemEvent)="reloadLikes()"-->
   </div>
   <div class="my_profile">
     <div class="my_profile_avatar"><img src="{{ avatar }}" alt=""></div>
-    <p class="my_profile_name">Profile name: {{ name | titlecase }}</p>
-    <p class="my_profile_name"><a href="{{ link }}" target="_blank">Me on Spotify <img src="https://img.icons8.com/fluent/19/000000/spotify.png"/></a>
+    <p class="my_profile_name">Профиль: {{ name | titlecase }}</p>
+    <p class="my_profile_name"><a href="{{ link }}" target="_blank">Я на Spotify <img src="https://img.icons8.com/fluent/19/000000/spotify.png"/></a>
     </p>
     <p class="my_profile_name play_song" (click)="playSong()">Послушать меня <tui-svg src="tuiIconPlayLarge"></tui-svg></p>
-<!--    <p class="my_profile_name">Likes: {{ likes }}</p>-->
 
     <p class="my_profile_name">Подписчики: {{ followers }}</p>
     <tui-accordion>
       <tui-accordion-item class="accordion-container">
-        Likes {{ likes }}
+        Мои лайки {{ likes }}
         <ng-template tuiAccordionItemContent>
-          <ul class="tui-list tui-list_small">
+          <ul class="tui-list tui-list_small"> <span *ngIf="likedMeLinks.length === 0">У вас пока нет лайков:(</span>
             <li class="tui-list__item" *ngFor="let liker of likedMeLinks"><a href="{{ liker.spotifyLink }}" target="_blank">{{ liker.username }}</a></li>
           </ul>
         </ng-template>
       </tui-accordion-item>
     </tui-accordion>
+
+    <tui-accordion>
+    <tui-accordion-item class="accordion-container">
+      Мои суперлайки {{ superLikesLinks.length }}
+      <ng-template tuiAccordionItemContent>
+        <ul class="tui-list tui-list_small"> <span *ngIf="superLikesLinks.length === 0">У вас пока нет суперлайков:(</span>
+          <li class="tui-list__item" *ngFor="let superLiker of superLikesLinks"><a href="{{ superLiker.spotifyLink }}">{{ superLiker.username }}</a> <span> Контакт для связи: <a href="mailto:{{superLiker.email}}" target="_blank">{{ superLiker.email }}</a></span></li>
+        </ul>
+      </ng-template>
+    </tui-accordion-item>
+    </tui-accordion>
+
     <div class="my_profile_exit">
       <button
         tuiButton

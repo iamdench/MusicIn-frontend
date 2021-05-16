@@ -13,6 +13,7 @@ export interface Artist {
   like: boolean;
   likedMe: string;
   track: string;
+  tracksArr?: string[];
 }
 
 @Injectable({

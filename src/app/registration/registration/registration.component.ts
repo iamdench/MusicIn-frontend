@@ -3,12 +3,7 @@ import {TUI_VALIDATION_ERRORS} from '@taiga-ui/kit';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {NavigationService} from '../../services/navigation.service';
 import {RegistrationService} from '../../services/registration.service';
-import {map} from 'rxjs/operators';
-import {RegProfile} from '../../interfaces/reg-profile';
 
-// function checkPasswordConfirm(control: FormControl): { [p: string]: boolean } | null {
-//   return control.parent?.value.pass === control.value ? null : {confirmed: true};
-// }
 
 function maxLengthValue(context: {requiredLength: string}): string {
   return `Максимальная длина — ${context.requiredLength} символов`;
@@ -72,28 +67,30 @@ export class RegistrationComponent implements OnInit {
   }
 
   submit(): void{
-      this.registrationService.checkUserName(this.form.value).
+    console.log('call');
+    this.registrationService.checkUserName(this.form.value).
       subscribe(name => {
         if (name) {
           this.block();
-          alert('Username found');
+          alert('Артист с таким именем уже зарегистрирован');
         }
         this.registrationService.checkSpotifyId(this.form.value).
       subscribe(id => {
           if (id) {
             this.block();
-            alert('Id found');
+            alert('Артист с таким ID уже зарегистрирован');
           }
           this.registrationService.checkEmail(this.form.value).
           subscribe(email => {
             if (email) {
               this.block();
-              alert('Email found');
+              alert('Артист с такой электропочтой уже зарегистрирован');
             }
             if (this.isValid) {
             this.registrationService.regNewUser(this.form.value).
             subscribe(r => {
               console.log(r);
+              this.toAuth();
             });
             }
           });

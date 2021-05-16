@@ -11,6 +11,7 @@ export class StorageService {
     sessionStorage.removeItem('accessToken');
     sessionStorage.removeItem('currentUser');
     sessionStorage.removeItem('spotyToken');
+    sessionStorage.removeItem('userId');
   }
 
   setAccToken(token: string): void {

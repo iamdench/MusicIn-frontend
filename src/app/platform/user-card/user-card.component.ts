@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DoCheck, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DoCheck, OnInit, Output, EventEmitter} from '@angular/core';
 import {Artist, SpotifyApiService} from '../../services/spotify-api.service';
 import {AuthApiService} from '../../services/auth-api.service';
 import {Subscription} from 'rxjs';
@@ -21,6 +21,8 @@ export class UserCardComponent implements OnInit, DoCheck {
 
   track = new Audio();
 
+  tracksArr: string[];
+
   state = false;
 
 
@@ -28,6 +30,8 @@ export class UserCardComponent implements OnInit, DoCheck {
               private authApiService: AuthApiService,
               private storageService: StorageService,
               private likesService: LikesApiService) { }
+
+  @Output() newItemEvent = new EventEmitter<any>();
 
    getAllArtists(): Subscription{
     return this.authApiService.getArtists().
@@ -45,7 +49,6 @@ export class UserCardComponent implements OnInit, DoCheck {
   checkLikes(): void {
     for (const artist of this.artists) {
       if (artist.likedMe.includes(this.storageService.getUserId())) {
-        console.log('check', artist);
         artist.like = true;
       } else {
         artist.like = false;
@@ -53,22 +56,24 @@ export class UserCardComponent implements OnInit, DoCheck {
     }
   }
 
-  showName(artist): void{
-    console.log(artist._id);
-  }
 
   getSongs(artists): void{
     for (const artist of artists) {
       this.spotyApiService.getTrack(artist.spotifyId).
       subscribe(res => {
-        artist.track = res.tracks[0].preview_url;
+        artist.tracksArr = res.tracks.map(song => song.preview_url);
+        console.log(artist.tracksArr);
       },
       error => {
         console.log(error);
       }
       );
     }
-    console.log('artists!!!!', this.artists);
+  }
+
+  arrayRandElement(arr): string{
+    const rand = Math.floor(Math.random() * arr.length);
+    return arr[rand];
   }
 
   getAllSpotify(): void{
@@ -78,7 +83,6 @@ export class UserCardComponent implements OnInit, DoCheck {
         artist.image = res.images[0].url;
         artist.name = res.name;
         artist.follower = res.followers.total;
-        console.log(res);
       }, error => {
         console.log(error);
       });
@@ -93,6 +97,7 @@ export class UserCardComponent implements OnInit, DoCheck {
     if (!artist.like) {
       this.likesService.like(artist._id).subscribe(req => {
         console.log(req);
+        this.newItemEvent.emit();
         },
           error => {
             console.log(error);
@@ -101,6 +106,7 @@ export class UserCardComponent implements OnInit, DoCheck {
       } else {
       this.likesService.dislike(artist._id).subscribe(req => {
           console.log(req);
+          this.newItemEvent.emit();
           },
         error => {
           console.log(error);
@@ -109,9 +115,21 @@ export class UserCardComponent implements OnInit, DoCheck {
     }
   }
 
-  playSong(trackUrl): void {
-    this.track.src = trackUrl;
-    this.state === false ? this.track.play() : this.track.pause();
+  // playSong(trackUrl): void {
+  //   this.track.src = trackUrl;
+  //   this.state === false ? this.track.play() : this.track.pause();
+  //   this.state = !this.state;
+  // }
+
+  playSong(trackUrl): void{
+    this.track.src = this.arrayRandElement(trackUrl);
+    try {
+      this.state === false ? this.track.play() : this.track.pause();
+    }
+    catch (error) {
+      console.log('ошибочка');
+    }
+    // this.state === false ? this.track.play() : this.track.pause();
     this.state = !this.state;
   }
 
